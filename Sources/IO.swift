@@ -237,7 +237,7 @@ public class File: ReadWriteCloser, Seeker {
     // Get last error from errno as an NSError.
     private class func getError() -> NSError {
         let message = String(cString:strerror(errno))
-        return NSError.newError(message, code: Int(errno))
+        return NSError.newIoError(message, code: Int(errno))
     }
     
     deinit {
@@ -576,3 +576,9 @@ public class with {
 //     var ch = Channel<NSData>()
 //     return (PipeReader(ch: ch), PipeWriter(ch: ch))
 // }
+extension NSError {
+    public static func newIoError(_ message: String, code: Int) -> NSError {
+        let dict: [AnyHashable: Any] = [NSLocalizedDescriptionKey: message]
+        return NSError(domain: Bundle.main.bundleIdentifier!, code: code, userInfo: dict)
+    }
+}
