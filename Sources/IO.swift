@@ -345,7 +345,7 @@ class IOThreadRunLoop: NSObject {
         self.runloop = RunLoop.current
         ready.signal()
         while (true) {
-            self.runloop.run(mode: RunLoopMode.defaultRunLoopMode, before: NSDate(timeIntervalSinceNow: 0.1) as Date)
+            self.runloop.run(mode: RunLoop.Mode.default, before: NSDate(timeIntervalSinceNow: 0.1) as Date)
         }
     }
 }
@@ -578,7 +578,7 @@ public class with {
 // }
 extension NSError {
     public static func newIoError(_ message: String, code: Int) -> NSError {
-        let dict: [AnyHashable: Any] = [NSLocalizedDescriptionKey: message]
+        let dict: [String: Any] = [NSLocalizedDescriptionKey: message]
         return NSError(domain: Bundle.main.bundleIdentifier!, code: code, userInfo: dict)
     }
 }
